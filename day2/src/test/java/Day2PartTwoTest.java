@@ -1,4 +1,5 @@
 import com.eremin.Day2PartOne;
+import com.eremin.Day2PartTwo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,16 +15,16 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class Day2PartOneTest {
+class Day2PartTwoTest {
     static List<String> allLinesFromFile = null;
     static Path path = null;
     static Map<Integer, List<Integer>> allLevelsPerLine = new HashMap<>();
-    static Day2PartOne day2 = new Day2PartOne();
+    static Day2PartTwo day2 = new Day2PartTwo();
 
     @BeforeAll
     static void setUpBeforeClass() {
         try {
-            path = Paths.get(Objects.requireNonNull(Day2PartOneTest.class.getClassLoader().getResource("input.txt")).toURI());
+            path = Paths.get(Objects.requireNonNull(Day2PartTwoTest.class.getClassLoader().getResource("input.txt")).toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -96,8 +97,8 @@ class Day2PartOneTest {
 
     @Test
     void shouldReturnCorrectValueOfSafeLevels() {
-        int expected = 2;
-        int actual = day2.getSafeLevels("input.txt");
+        int expected = 4;
+        int actual = day2.getActuallySafeLevels("input.txt");
         assertEquals(expected, actual);
     }
 }

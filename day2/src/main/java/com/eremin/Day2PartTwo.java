@@ -6,22 +6,32 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Day2PartTwo {
 
-    public int result() {
-        Map<Integer, List<Integer>> allLevelsPerLine = getUnusualDataFromFile(getPath());
+    public int getActuallySafeLevels(String fileName) {
+        Map<Integer, List<Integer>> allLevelsPerLine = getUnusualDataFromFile(getURIOfResource(fileName));
+        int countOfSafeLevels = 0;
 
-        int result = 0;
         for (int i = 0; i < allLevelsPerLine.size(); i++) {
-            var levels = allLevelsPerLine.get(i);
-            if ((isAllIncrease(levels) || isAllDecrease(levels))
-                    && (isDifferLessThanFour(levels) && isDifferMoreThanZero(levels))) {
-                result++;
+            List<Integer> levels = allLevelsPerLine.get(i);
+            if (isSafe(levels)) {
+                countOfSafeLevels++;
+            } else {
+                for (int j = 0; j < levels.size(); j++) {
+                    List<Integer> copyOfLevels = new ArrayList<>(levels);
+                    copyOfLevels.remove(j);
+
+                    if (isSafe(copyOfLevels)) {
+                        countOfSafeLevels++;
+                        break;
+                    }
+                }
             }
         }
-        return result;
+        return countOfSafeLevels;
     }
 
     public boolean isAllIncrease(List<Integer> levels) {
@@ -66,13 +76,10 @@ public class Day2PartTwo {
         return true;
     }
 
-    private Path getPath() {
+    private Path getURIOfResource(String fileName) {
         Path path;
         try {
-            path = Paths.get(Objects.requireNonNull(getClass()
-                            .getClassLoader()
-                            .getResource("input.txt"))
-                    .toURI());
+            path = Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -98,15 +105,13 @@ public class Day2PartTwo {
         for (int i = 0; i < allLinesFromFile.size(); i++) {
             String line = allLinesFromFile.get(i);
             String[] stringLevels = line.split("\\s+");
-            List<Integer> levels = new ArrayList<>();
-
-            for (String stringLevel : stringLevels) {
-                var level = Integer.parseInt(stringLevel);
-                levels.add(level);
-            }
-
+            List<Integer> levels = Arrays.stream(stringLevels).mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
             allLevelsPerLine.put(i, levels);
         }
         return allLevelsPerLine;
+    }
+
+    private boolean isSafe(List<Integer> levels) {
+        return (isAllIncrease(levels) || isAllDecrease(levels)) && (isDifferLessThanFour(levels) && isDifferMoreThanZero(levels));
     }
 }

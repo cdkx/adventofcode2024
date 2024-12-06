@@ -2,28 +2,24 @@ package com.eremin;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 public class Day2PartOne {
 
-    public int result() {
-        Map<Integer, List<Integer>> allLevelsPerLine = getUnusualDataFromFile(getPath());
+    public int getSafeLevels(String fileName) {
+        Map<Integer, List<Integer>> allLevelsPerLine = getUnusualDataFromFile(getURIOfResource(fileName));
 
-        int result = 0;
+        int countOfSafeLevels = 0;
         for (int i = 0; i < allLevelsPerLine.size(); i++) {
             var levels = allLevelsPerLine.get(i);
-            if ((isAllIncrease(levels) || isAllDecrease(levels))
-                    && (isDifferLessThanFour(levels) && isDifferMoreThanZero(levels))) {
-                result++;
+            if ((isAllIncrease(levels) || isAllDecrease(levels)) && (isDifferLessThanFour(levels) && isDifferMoreThanZero(levels))) {
+                countOfSafeLevels++;
             }
         }
-        return result;
+        return countOfSafeLevels;
     }
 
     public boolean isAllIncrease(List<Integer> levels) {
@@ -68,13 +64,10 @@ public class Day2PartOne {
         return true;
     }
 
-    private Path getPath() {
+    private Path getURIOfResource(String fileName) {
         Path path;
         try {
-            path = Paths.get(Objects.requireNonNull(getClass()
-                            .getClassLoader()
-                            .getResource("input.txt"))
-                    .toURI());
+            path = Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource(fileName)).toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
