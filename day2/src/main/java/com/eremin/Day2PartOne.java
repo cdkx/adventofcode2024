@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 public class Day2PartOne {
@@ -98,13 +100,7 @@ public class Day2PartOne {
         for (int i = 0; i < allLinesFromFile.size(); i++) {
             String line = allLinesFromFile.get(i);
             String[] stringLevels = line.split("\\s+");
-            List<Integer> levels = new ArrayList<>();
-
-            for (String stringLevel : stringLevels) {
-                var level = Integer.parseInt(stringLevel);
-                levels.add(level);
-            }
-
+            List<Integer> levels = Arrays.stream(stringLevels).mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
             allLevelsPerLine.put(i, levels);
         }
         return allLevelsPerLine;
