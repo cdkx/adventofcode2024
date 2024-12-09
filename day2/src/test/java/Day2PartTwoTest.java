@@ -1,4 +1,3 @@
-import com.eremin.Day2PartOne;
 import com.eremin.Day2PartTwo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
