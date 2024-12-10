@@ -13,8 +13,6 @@ import java.util.Objects;
 
 public class Day1PartOne {
     public int result() {
-        
-        // считать все строки из файла
         Path path;
         try {
             path = Paths.get(Objects.requireNonNull(getClass().getClassLoader().getResource("input.txt")).toURI());
@@ -29,8 +27,6 @@ public class Day1PartOne {
             throw new RuntimeException(e);
         }
 
-
-        // разделить в два листа
         List<Integer> list1 = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
         for (String s : allLinesFromFile) {
@@ -39,11 +35,9 @@ public class Day1PartOne {
             list2.add(Integer.parseInt(split[1]));
         }
 
-        // отсортировать
         Collections.sort(list1);
         Collections.sort(list2);
 
-        // вычислить разницу -> в новый лист
         List<Integer> listOfResult = new ArrayList<>();
         for (int i = 0; i < list1.size(); i++) {
             int j = (list1.get(i) - list2.get(i));
@@ -51,10 +45,6 @@ public class Day1PartOne {
             listOfResult.add(distance);
         }
 
-        // сумма всех элементов
-        return listOfResult
-                .stream()
-                .mapToInt(integer -> integer)
-                .sum();
+        return listOfResult.stream().mapToInt(x -> x).sum();
     }
 }

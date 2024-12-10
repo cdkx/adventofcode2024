@@ -2,7 +2,9 @@ package com.eremin;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,10 +12,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class Day3PartOne {
+public class Day3PartTwo {
 
     public int multiplySomeNumbers(String fileName) {
+
         String stringFromFile = getOneStringFromFile(getURIOfResource(fileName));
+
+        /*
+        split()
+
+        "do\(\)"
+        "don't\(\)"
+
+         */
+
+
         Pattern pattern = Pattern.compile("mul\\(\\d+,\\d+\\)");
         List<String> listOfMatches = getListOfMatches(stringFromFile, pattern);
 
@@ -61,7 +74,7 @@ public class Day3PartOne {
         return matches;
     }
 
-    private int getMultiplications(List<Integer> listOfIntegers) {
+    private static int getMultiplications(List<Integer> listOfIntegers) {
         int result = 0;
         for (int i = 0; i < listOfIntegers.size() / 2; i++) {
             int first = listOfIntegers.get(i * 2);
