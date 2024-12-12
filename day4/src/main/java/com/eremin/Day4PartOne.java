@@ -16,13 +16,14 @@ public class Day4PartOne {
 
     public int countWord(String fileName) {
         int times = 0;
-        String stringFromFile = getOneStringFromFile(getURIOfResource(fileName));
-        Pattern pattern = Pattern.compile("mul\\(\\d+,\\d+\\)");
-        List<String> listOfMatches = getListOfMatches(stringFromFile, pattern);
-
-        Pattern pattern2 = Pattern.compile("\\d+");
-        List<Integer> listOfIntegers = getIntegers(listOfMatches, pattern2);
-
+        char[][] charArrayFromFile = getCharArrayFromFile(getURIOfResource(fileName));
+        for (char[] chars : charArrayFromFile) {
+            for (char aChar : chars) {
+                System.out.print(aChar);
+            }
+            System.out.println();
+        }
+        // TODO
         return times;
     }
 
@@ -36,41 +37,13 @@ public class Day4PartOne {
         return path;
     }
 
-    private String getOneStringFromFile(Path path) {
-        List<String> allLinesFromFile;
+    private char[][] getCharArrayFromFile(Path path) {
+        List<String> allLines;
         try {
-            allLinesFromFile = Files.readAllLines(path);
+            allLines = Files.readAllLines(path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return String.join("", allLinesFromFile);
-    }
-
-    private List<String> getListOfMatches(String str, Pattern pattern) {
-        Matcher matcher = pattern.matcher(str);
-        List<String> matches = new ArrayList<>();
-        while (matcher.find()) {
-            matches.add(matcher.group());
-        }
-        return matches;
-    }
-
-    private List<Integer> getIntegers(List<String> listOfMatches, Pattern pattern) {
-        Matcher matcher = pattern.matcher(listOfMatches.toString());
-        List<Integer> matches = new ArrayList<>();
-        while (matcher.find()) {
-            matches.add(Integer.valueOf(matcher.group()));
-        }
-        return matches;
-    }
-
-    private int getMultiplications(List<Integer> listOfIntegers) {
-        int result = 0;
-        for (int i = 0; i < listOfIntegers.size() / 2; i++) {
-            int first = listOfIntegers.get(i * 2);
-            int second = listOfIntegers.get(i * 2 + 1);
-            result += first * second;
-        }
-        return result;
+        return allLines.stream().map(String::toCharArray).toArray(char[][]::new);
     }
 }
