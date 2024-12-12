@@ -15,9 +15,19 @@ import java.util.regex.Pattern;
 public class Day3PartTwo {
 
     public int multiplySomeNumbers(String fileName) {
+
         String stringFromFile = getOneStringFromFile(getURIOfResource(fileName));
 
-        Pattern pattern = Pattern.compile("mul\\(\\d+,\\d+\\)|don't\\(\\)|do\\(\\)");
+        /*
+        split()
+
+        "do\(\)"
+        "don't\(\)"
+
+         */
+
+
+        Pattern pattern = Pattern.compile("mul\\(\\d+,\\d+\\)");
         List<String> listOfMatches = getListOfMatches(stringFromFile, pattern);
 
         Pattern pattern2 = Pattern.compile("\\d+");
@@ -49,16 +59,8 @@ public class Day3PartTwo {
     private List<String> getListOfMatches(String str, Pattern pattern) {
         Matcher matcher = pattern.matcher(str);
         List<String> matches = new ArrayList<>();
-        boolean isIgnore = false;
         while (matcher.find()) {
-            if (matcher.group().equals("do()")) {
-                isIgnore = false;
-            } else if (matcher.group().equals("don't()")) {
-                isIgnore = true;
-            }
-            if (!isIgnore) {
-                matches.add(matcher.group());
-            }
+            matches.add(matcher.group());
         }
         return matches;
     }
